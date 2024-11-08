@@ -1,0 +1,6 @@
+.profile-image-34 {
+        border-radius: 50%; /* Makes the image circular */
+        object-fit: cover;  /* Ensures the image covers the entire area */
+        height: 37px;       /* Sets the height */
+        width: 37px;        /* Sets the width */
+    }

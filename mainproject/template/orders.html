@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+	{% load static %}
+    <title>oder</title>
+    
+   <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Portal - Bootstrap 5 Admin Dashboard Template For Developers">
+    <meta name="author" content="Xiaoying Riley at 3rd Wave Media">
+    <link rel="shortcut icon" href="{% static 'img/Fevicon.jpg' %}">
+
+    <!-- FontAwesome JS-->
+    <script defer src="{% static 'plugins/fontawesome/js/all.min.js' %}"></script>
+
+    <!-- App CSS -->
+    <link id="theme-style" rel="stylesheet" href="{% static 'css/portal.css' %}">
+	<link id="button-style" rel="stylesheet" href="{% static 'css/button.css' %}">
+
+
+</head> 
+
+<body class="app">   	
+    <header class="app-header fixed-top">
+        <div class="app-header-inner">
+	        <div class="container-fluid py-2">
+		        <div class="app-header-content">
+		            <div class="row justify-content-between align-items-center">
+
+				    <div class="col-auto">
+					    <a id="sidepanel-toggler" class="sidepanel-toggler d-inline-block d-xl-none" href="#">
+						    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img"><title>Menu</title><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg>
+					    </a>
+				    </div><!--//col-->
+
+		            <div class="app-utilities col-auto">
+			            <div class="app-utility-item app-notifications-dropdown dropdown">
+				            <a class="dropdown-toggle no-toggle-arrow" id="notifications-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Notifications">
+					            <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+					            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bell icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2z"/>
+  <path fill-rule="evenodd" d="M8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
+</svg>
+					            <span class="icon-badge">{{messages_count}}</span>
+					        </a><!--//dropdown-toggle-->
+
+					        <div class="dropdown-menu p-0" aria-labelledby="notifications-dropdown-toggle">
+					            <div class="dropdown-menu-header p-3">
+						            <h5 class="dropdown-menu-title mb-0">Notifications</h5>
+						        </div><!--//dropdown-menu-title-->
+						        <div class="dropdown-menu-content">
+									{% for msg in messages %}
+							       <div class="item p-3">
+								        <div class="row gx-2 justify-content-between align-items-center">
+									        <div class="col-auto">
+										       <img class="profile-image" src="{{ msg.user.profile_pic.url}}" alt="">
+									        </div><!--//col-->
+									        <div class="col">
+										        <div class="info">
+											        <div class="desc">{{msg.message}} </div>
+											        <div class="meta"> {{msg.timestamp}}</div>
+										        </div>
+									        </div><!--//col-->
+								        </div><!--//row-->
+								        <a class="link-mask" href="messages.html"></a>
+							       </div><!--//item-->
+									{% endfor %}
+
+						        </div><!--//dropdown-menu-content-->
+
+
+
+							</div><!--//dropdown-menu-->
+				        </div><!--//app-utility-item-->
+
+
+			            <div class="app-utility-item app-user-dropdown dropdown">
+				            <a class="dropdown-toggle" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><img src="{{ admin.profile_pic.url}}" alt="user profile"></a>
+				            <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
+								<li><a class="dropdown-item" href="admin_profile">Account</a></li>							<li><a class="dropdown-item" href="login.html">Log Out</a></li>
+							</ul>
+			            </div><!--//app-user-dropdown-->
+		            </div><!--//app-utilities-->
+		        </div><!--//row-->
+	            </div><!--//app-header-content-->
+	        </div><!--//container-fluid-->
+        </div><!--//app-header-inner-->
+        <div id="app-sidepanel" class="app-sidepanel">
+	        <div id="sidepanel-drop" class="sidepanel-drop"></div>
+	        <div class="sidepanel-inner d-flex flex-column">
+		        <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
+		        <div class="app-branding">
+		            <a class="app-logo" href="index.html"><img class="logo-icon me-2" src="{% static 'img/Fevicon.jpg' %}" alt="logo"><span class="logo-text">ADMIN</span></a>
+
+		        </div><!--//app-branding-->
+
+			    <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
+				    <ul class="app-menu list-unstyled accordion" id="menu-accordion">
+					    <li class="nav-item">
+					        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+					        <a class="nav-link active" href="adminindex">
+						        <span class="nav-icon">
+						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-house-door" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+		  <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5H9.5a.5.5 0 0 1-.5-.5v-4H7v4a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6zM2.5 7.707V14H6v-4a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4h3.5V7.707L8 2.207l-5.5 5.5z"/>
+		  <path fill-rule="evenodd" d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+		</svg>
+						         </span>
+		                         <span class="nav-link-text">Overview</span>
+					        </a><!--//nav-link-->
+					    </li><!--//nav-item-->
+					    <li class="nav-item">
+					        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+					        <a class="nav-link" href="orders">
+						        <span class="nav-icon">
+						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+  <path fill-rule="evenodd" d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5z"/>
+  <circle cx="3.5" cy="5.5" r=".5"/>
+  <circle cx="3.5" cy="8" r=".5"/>
+  <circle cx="3.5" cy="10.5" r=".5"/>
+</svg>
+						         </span>
+		                         <span class="nav-link-text">Orders</span>
+					        </a><!--//nav-link-->
+					    </li><!--//nav-item-->
+					    <li class="nav-item has-submenu">
+					        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+					        <a class="nav-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-1" aria-expanded="false" aria-controls="submenu-1">
+						        <span class="nav-icon">
+						        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-files" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+	  <path fill-rule="evenodd" d="M4 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4z"/>
+	  <path d="M6 0h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1H4a2 2 0 0 1 2-2z"/>
+	</svg>
+						         </span>
+		                         <span class="nav-link-text">Pages</span>
+		                         <span class="submenu-arrow">
+		                             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+	  <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+	</svg>
+	                             </span><!--//submenu-arrow-->
+					        </a><!--//nav-link-->
+					        <div id="submenu-1" class="collapse submenu submenu-1" data-bs-parent="#menu-accordion">
+						        <ul class="submenu-list list-unstyled">
+							        <li class="submenu-item"><a class="submenu-link" href="user_details">User Details</a></li>
+							        <li class="submenu-item"><a class="submenu-link" href="employee_details">Employee Details</a></li>
+							        <li class="submenu-item"><a class="submenu-link" href="Add_product">Add Product</a></li>
+									<li class="submenu-item"><a class="submenu-link" href="Manage_Product">Manage Product</a></li>
+									<li class="submenu-item"><a class="submenu-link" href="messages">Messages</a></li>
+						        </ul>
+					        </div>
+					    </li><!--//nav-item-->
+					    <li class="nav-item has-submenu">
+					        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+					        <a class="nav-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-2" aria-expanded="false" aria-controls="submenu-2">
+						        <span class="nav-icon">
+						        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-columns-gap" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+	  <path fill-rule="evenodd" d="M6 1H1v3h5V1zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12h-5v3h5v-3zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8H1v7h5V8zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6h-5v7h5V1zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z"/>
+	</svg>
+						         </span>
+		                         <span class="nav-link-text">External</span>
+		                         <span class="submenu-arrow">
+		                             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+	  <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+	</svg>
+	                             </span><!--//submenu-arrow-->
+					        </a><!--//nav-link-->
+					        <div id="submenu-2" class="collapse submenu submenu-2" data-bs-parent="#menu-accordion">
+						        <ul class="submenu-list list-unstyled">
+							        <li class="submenu-item"><a class="submenu-link" href="login.html">Log Out</a></li>
+							        <li class="submenu-item"><a class="submenu-link" href="reset-password.html">Reset password</a></li>
+						        </ul>
+					        </div>
+					    </li><!--//nav-item-->
+
+				    </ul><!--//app-menu-->
+			    </nav><!--//app-nav-->
+
+	    </div><!--//app-sidepanel-->
+    </header><!--//app-header-->
+    
+    <div class="app-wrapper">
+	    
+	    <div class="app-content pt-3 p-md-3 p-lg-4">
+		    <div class="container-xl">
+
+			    <div class="row g-3 mb-4 align-items-center justify-content-between">
+				    <div class="col-auto">
+			            <h1 class="app-page-title mb-0">Orders</h1>
+				    </div>
+				    <div class="col-auto">
+					     <div class="page-utilities">
+						    <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+
+
+						    </div><!--//row-->
+					    </div><!--//table-utilities-->
+				    </div><!--//col-auto-->
+			    </div><!--//row-->
+
+
+			    <nav id="orders-table-tab" class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4">
+				    <a class="flex-sm-fill text-sm-center nav-link active" id="orders-all-tab" data-bs-toggle="tab" href="#orders-all" role="tab" aria-controls="orders-all" aria-selected="true">All Paid Products</a>
+				    <a class="flex-sm-fill text-sm-center nav-link" id="orders-pending-tab" data-bs-toggle="tab" href="#orders-pending" role="tab" aria-controls="orders-pending" aria-selected="false">Shipped</a>
+				    <a class="flex-sm-fill text-sm-center nav-link" id="orders-cancelled-tab" data-bs-toggle="tab" href="#orders-cancelled" role="tab" aria-controls="orders-cancelled" aria-selected="false">Delivered</a>
+				</nav>
+
+
+				<div class="tab-content" id="orders-table-tab-content">
+			        <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+					    <div class="app-card app-card-orders-table shadow-sm mb-5">
+						    <div class="app-card-body">
+							    <div class="table-responsive">
+							        <table class="table app-table-hover mb-0 text-left">
+										<thead>
+											<tr>
+												<th class="cell">Order ID</th>
+												<th class="cell">Product ID</th>
+												<th class="cell">Product</th>
+												<th class="cell">Customer</th>
+												<th class="cell">Location</th>
+												<th class="cell">Quantity</th>
+												<th class="cell">Status</th>
+												<th class="cell">Total</th>
+												<th class="cell">Tick</th>
+											</tr>
+										</thead>
+										<tbody>
+										{% for i in cart %}
+
+											<tr>
+												<td class="cell">{{i.id}}</td>
+												<td class="cell"><span class="truncate">{{i.product_details.id}}</span></td>
+												<td class="cell"> <img src="{{ i.product_details.image.url }}" alt="Product Image" width="100" >  {{i.product_details.p_name}}</td>
+												<td class="cell">{{i.user_details.user_name}}</td>
+												<td class="cell"><span>{{i.user_details.Street}}</span></td>
+												<td class="cell"><span>{{i.quantity}}</span></td>
+												<td class="cell"><span class="badge bg-success">{{i.status}}</span></td>
+												<td class="cell">{{i.total_price}}</td>
+												<td class="cell"><a class="button-18" href="{% url 'dispatch_order' i.id %}">Dispatch</a></td>
+											</tr>
+											{% endfor %}
+
+										</tbody>
+									</table>
+						        </div><!--//table-responsive-->
+
+						    </div><!--//app-card-body-->
+						</div><!--//app-card-->
+						<nav class="app-pagination">
+							<ul class="pagination justify-content-center">
+								<li class="page-item disabled">
+									<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+							    </li>
+								<li class="page-item active"><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item">
+								    <a class="page-link" href="#">Next</a>
+								</li>
+							</ul>
+						</nav><!--//app-pagination-->
+
+			        </div><!--//tab-pane-->
+
+
+
+			        <div class="tab-pane fade" id="orders-pending" role="tabpanel" aria-labelledby="orders-pending-tab">
+					    <div class="app-card app-card-orders-table mb-5">
+						    <div class="app-card-body">
+							    <div class="table-responsive">
+							        	<table class="table app-table-hover mb-0 text-left">
+    <thead>
+        <tr>
+            <th class="cell">Order ID</th>
+            <th class="cell">Product ID</th>
+            <th class="cell">Product</th>
+            <th class="cell">Customer</th>
+            <th class="cell">Location</th>
+            <th class="cell">Quantity</th>
+            <th class="cell">Status</th>
+            <th class="cell">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for i in Shipped %}
+        <tr>
+            <td class="cell">{{ i.id }}</td>
+            <td class="cell"><span class="truncate">{{ i.product_details.id }}</span></td>
+            <td class="cell">
+                <img src="{{ i.product_details.image.url }}" alt="Product Image" width="100">
+                {{ i.product_details.p_name }}
+            </td>
+            <td class="cell">{{ i.user_details.user_name }}</td>
+            <td class="cell"><span>{{ i.user_details.Street }}</span></td>
+            <td class="cell"><span>{{ i.quantity }}</span></td>
+            <td class="cell"><span class="badge bg-success">{{ i.status }}</span></td>
+            <td class="cell">{{ i.total_price }}</td>
+
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="9">No shipped products found.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+						        </div><!--//table-responsive-->
+						    </div><!--//app-card-body-->
+						</div><!--//app-card-->
+			        </div><!--//tab-pane-->
+			        <div class="tab-pane fade" id="orders-cancelled" role="tabpanel" aria-labelledby="orders-cancelled-tab">
+					    <div class="app-card app-card-orders-table mb-5">
+						    <div class="app-card-body">
+							    <div class="table-responsive">
+							        <table class="table mb-0 text-left">
+										  <thead>
+        <tr>
+            <th class="cell">Order ID</th>
+            <th class="cell">Product ID</th>
+            <th class="cell">Product</th>
+            <th class="cell">Customer</th>
+            <th class="cell">Location</th>
+            <th class="cell">Quantity</th>
+            <th class="cell">Status</th>
+            <th class="cell">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for i in Delivered %}
+        <tr>
+            <td class="cell">{{ i.id }}</td>
+            <td class="cell"><span class="truncate">{{ i.product_details.id }}</span></td>
+            <td class="cell">
+                <img src="{{ i.product_details.image.url }}" alt="Product Image" width="100">
+                {{ i.product_details.p_name }}
+            </td>
+            <td class="cell">{{ i.user_details.user_name }}</td>
+            <td class="cell"><span>{{ i.user_details.Street }}</span></td>
+            <td class="cell"><span>{{ i.quantity }}</span></td>
+            <td class="cell"><span class="badge bg-success">{{ i.status }}</span></td>
+            <td class="cell">{{ i.total_price }}</td>
+
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="9">No shipped products found.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+						        </div><!--//table-responsive-->
+						    </div><!--//app-card-body-->		
+						</div><!--//app-card-->
+			        </div><!--//tab-pane-->
+				</div><!--//tab-content-->
+				
+				
+			    
+		    </div><!--//container-fluid-->
+	    </div><!--//app-content-->
+	    
+
+	    
+    </div><!--//app-wrapper-->    					
+
+ 
+    <!-- Javascript -->          
+    <script src="{% static 'plugins/popper.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+    
+    
+    <!-- Page Specific JS -->
+    <script src="{% static 'js/app.js' %}"></script>
+
+</body>
+</html> 
+

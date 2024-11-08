@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>VE Shop - user wish list</title>
+	<link rel="icon" href="{% static 'img/Fevicon.jpg' %}" type="image/png">
+  <link rel="stylesheet" href="{% static 'vendors/bootstrap/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/fontawesome/css/all.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/themify-icons/themify-icons.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/nice-select/nice-select.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/nouislider/nouislider.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/_search.css' %}">
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <!--================ Start Header Menu Area =================-->
+	<header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand logo_h" href="userindex"><img src="{% static 'img/logo.PNG' %}" width="300" height="62" alt=""></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+              <li class="nav-item active"><a class="nav-link" href="userindex">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="user_category">Shop Category</a></li>
+               <li class="nav-item submenu dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">pages</a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item"><a class="nav-link" href="user_wish">wish list</a></li>
+                  <li class="nav-item"><a class="nav-link" href="cart">Shopping cart</a></li>
+                  <li class="nav-item"><a class="nav-link" href="user_order">Order</a></li>
+                  <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
+                </ul>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="login">LogOut</a></li>
+
+
+            </ul>
+
+
+<form class="wrapper" action="/search_page" method="GET">
+  <div class="searchBar">
+    <input id="searchQueryInput" type="text" name="searchQueryInput" placeholder="Search" value="" />
+    <button id="searchQuerySubmit" type="submit" name="searchQuerySubmit">
+      <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+        <path fill="#666666" d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
+      </svg>
+    </button>
+  </div>
+</form>
+
+
+
+          </div>
+        </div>
+          <a href="cart" class="cart-count" style="display: inline-flex; align-items: center; text-decoration: none; color: #333; font-family: Arial, sans-serif; padding: 5px; background-color: #fff; border: 1px solid #ddd; border-radius: 25px;">
+    <span class="cart-icon" style="font-size: 20px; margin-right: 8px;">🛒</span>
+    <span class="cart-count-number" style="font-size: 14px; color: #fff; background-color: #007bff; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-weight: bold;">{{ cart_count }}</span>
+</a> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+    <div>
+      <a href="user_profile">
+        <img class="profile-image" src="{{ user.profile_pic.url}}" alt="" height="37" width="37">
+      </a>
+    </div>
+      </nav>
+    </div>
+  </header>
+	<!--================ End Header Menu Area =================-->
+
+	<!-- ================ start banner area ================= -->	
+	<section class="blog-banner-area" id="category">
+		<div class="container h-100">
+			<div class="blog-banner">
+				<div class="text-center">
+					<h1>Wish List</h1>
+					<nav aria-label="breadcrumb" class="banner-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">User</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Wish List</li>
+            </ol>
+          </nav>
+				</div>
+			</div>
+    </div>
+	</section>
+	<!-- ================ end banner area ================= -->
+
+
+	<!-- ================ category section start ================= -->		  
+
+	<!-- ================ category section end ================= -->		  
+
+	<!-- ================ top product area start ================= -->	
+	<section class="related-product-area">
+		<div class="container">
+			<div class="section-intro pb-60px">
+        <h2>Your <span class="section-intro__style">Wish List</span></h2>
+      </div>
+			<div class="row mt-30">
+          {% for i in data %}
+
+        <div class="col-sm-6 col-xl-3 mb-4 mb-xl-0">
+          <div class="single-search-product-wrapper">
+              <a href="../remove_wishlist/{{i.pk}}" class="remove-wishlist">
+                    &times; <!-- Cross symbol -->
+                </a>
+            <div class="single-search-product d-flex">
+              <a href="#"><img src="{{i.product_details.image.url}}" alt=""></a>
+              <div class="desc">
+                  <a href="{% url 'single_product' i.product_details.pk %}" class="title">{{i.product_details.p_name}}</a>
+                  <div class="price">{{i.product_details.price}}</div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+{% endfor %}
+        </div>
+      </div>
+		</div>
+
+
+	</section>
+	<!-- ================ top product area end ================= -->		
+
+	<!-- ================ Subscribe section start ================= -->		  
+
+	<!-- ================ Subscribe section end ================= -->		  
+
+
+  <!--================ Start footer Area  =================-->	
+	<footer class="footer">
+		<div class="footer-area">
+			<div class="container">
+				<div class="row section_gap">
+					<div class="col-lg-3 col-md-6 col-sm-6">
+						<div class="single-footer-widget tp_widgets">
+							<h4 class="footer_title large_title">Our Mission</h4>
+							<p>
+								At VE Shop, our mission is to empower individuals and businesses by providing the latest and most reliable technology news, reviews, and insights.
+                            </p>
+
+						</div>
+					</div>
+					<div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6">
+						<div class="single-footer-widget tp_widgets">
+							<h4 class="footer_title">Quick Links</h4>
+							<ul class="list">
+								<li><a href="userindex">Home</a></li>
+								<li><a href="user_category">Shop Category</a></li>
+								<li><a href="user_wish">Wish List</a></li>
+                                <li><a href="cart">Shopping Cart</a></li>
+                                <li><a href="login">LogOut</a></li>
+
+							</ul>
+						</div>
+					</div>
+
+					<div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
+						<div class="single-footer-widget tp_widgets">
+							<h4 class="footer_title">Contact Us</h4>
+							<div class="ml-40">
+								<p class="sm-head">
+									<span class="fa fa-location-arrow"></span>
+									Head Office
+								</p>
+								<p>123, Main Street, Your City</p>
+
+								<p class="sm-head">
+									<span class="fa fa-phone"></span>
+									Phone Number
+								</p>
+								<p>
+									+123 456 7890 <br>
+									+123 456 7890
+								</p>
+
+								<p class="sm-head">
+									<span class="fa fa-envelope"></span>
+									Email
+								</p>
+								<p>
+									free@infoexample.com <br>
+									www.infoexample.com
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!--================ End footer Area  =================-->
+
+
+
+  <script src="{% static 'vendors/jquery/jquery-3.2.1.min.js' %}"></script>
+  <script src="{% static 'vendors/bootstrap/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendors/skrollr.min.js' %}"></script>
+  <script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'vendors/nice-select/jquery.nice-select.min.js' %}"></script>
+  <script src="{% static 'vendors/nouislider/nouislider.min.js' %}"></script>
+  <script src="{% static 'vendors/jquery.ajaxchimp.min.js' %}"></script>
+  <script src="{% static 'vendors/mail-script.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
