@@ -130,4 +130,7 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
 # settings.py
 
+  # This reads a .env file (create it in the same directory)
+# settings.py
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

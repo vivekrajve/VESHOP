@@ -412,48 +412,113 @@ def message(request):
     return render(request, "messages.html",{'message':message,'messages':messages,'messages_count':messages_count,'admin':admin})
 
 
-
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.contrib import messages
 
 
 def user_reg(r):
     if r.method == "POST":
-        a = r.POST['n1']
-        b = r.POST['n2']
-        c = r.POST['n3']
-        d = r.POST['n4']
-        e = r.POST['n5']
+        a = r.POST['n1']  # Username
+        b = r.POST['n2']  # Phone number
+        c = r.POST['n3']  # Email
+        d = r.POST['n4']  # Password
+        e = r.POST['n5']  # Confirm Password
         f = r.POST['street']  # Street
         g = r.POST['house']  # House
         h = r.POST['state']  # State
         i = r.POST['pin']  # Pin
         j = r.POST['country']  # Country
-        k = r.POST['profile_pic']
+
+        # Validate email format
+        try:
+            validate_email(c)
+        except ValidationError:
+            messages.error(r, 'Invalid email format')
+            return render(r, "user_register.html")
+
+        # Validate phone number length
+        if len(b) != 10 or not b.isdigit():
+            messages.error(r, 'Phone number must be exactly 10 digits')
+            return render(r, "user_register.html")
+
+        # Check if passwords match
         if d == e:
+            # Check for unique username, email, and phone number
             if UserRegister1.objects.filter(user_name=a).exists():
-                messages.error(r, 'user already registered')
+                messages.error(r, 'Username already registered')
+            elif UserRegister1.objects.filter(email=c).exists():
+                messages.error(r, 'Email already registered')
+            elif UserRegister1.objects.filter(phone_number=b).exists():
+                messages.error(r, 'Phone number already registered')
             else:
-                data = UserRegister1.objects.create(user_name=a, phone_number=b, email=c, password=d, Street=f, House=g,
-                                                    State=h, Pin=i, Country=j, profile_pic=k)
+                # Create and save the user if all checks pass
+                data = UserRegister1.objects.create(
+                    user_name=a,
+                    phone_number=b,
+                    email=c,
+                    password=d,
+                    Street=f,
+                    House=g,
+                    State=h,
+                    Pin=i,
+                    Country=j
+                )
                 data.save()
-                messages.success(r, 'registered successfully')
+                messages.success(r, 'Registered successfully')
         else:
-            messages.error(r, 'password mismatch')
+            messages.error(r, 'Password mismatch')
+
     return render(r, "user_register.html")
 
 
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.contrib import messages
+from django.shortcuts import redirect, render
+
 def employee_register(request):
     if request.method == "POST":
-        name = request.POST.get('name', '')
-        phone_number = request.POST.get('phone_number', '')
-        email = request.POST.get('email', '')
-        password = request.POST.get('password', '')
-        confirm_password = request.POST.get('confirmPassword', '')
+        name = request.POST.get('name', '').strip()
+        phone_number = request.POST.get('phone_number', '').strip()
+        email = request.POST.get('email', '').strip()
+        password = request.POST.get('password', '').strip()
+        confirm_password = request.POST.get('confirmPassword', '').strip()
 
+        # Name validation: Check if name is not empty
+        if not name:
+            messages.error(request, 'Name is required.')
+            return render(request, 'employee_register.html')
+
+        # Phone number validation: Check if it's exactly 10 digits and only numbers
+        if len(phone_number) != 10 or not phone_number.isdigit():
+            messages.error(request, 'Phone number must be exactly 10 digits.')
+            return render(request, 'employee_register.html')
+
+        # Email validation: Check if email format is valid
+        try:
+            validate_email(email)
+        except ValidationError:
+            messages.error(request, 'Invalid email format.')
+            return render(request, 'employee_register.html')
+
+        # Check if passwords match
         if password != confirm_password:
             messages.error(request, 'Passwords do not match.')
             return render(request, 'employee_register.html')
 
-        # Store data in session for later use
+        # Check uniqueness of name, email, and phone number
+        if ShopEmployeeRegister1.objects.filter(name=name).exists():
+            messages.error(request, 'Name already registered.')
+            return render(request, 'employee_register.html')
+        elif ShopEmployeeRegister1.objects.filter(email=email).exists():
+            messages.error(request, 'Email already registered.')
+            return render(request, 'employee_register.html')
+        elif ShopEmployeeRegister1.objects.filter(phone_number=phone_number).exists():
+            messages.error(request, 'Phone number already registered.')
+            return render(request, 'employee_register.html')
+
+        # Store data in session for later use if all validations pass
         request.session['registration_data'] = {
             'name': name,
             'phone_number': phone_number,
@@ -462,6 +527,7 @@ def employee_register(request):
         }
 
         return redirect('employee_register_2')
+
     return render(request, "employee_register.html")
 
 
@@ -1059,3 +1125,63 @@ def delete_ads(r, d):
     data.delete()
     messages.success(r, 'deleted succesfully')
     return redirect('Manage_Ads')
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.core.mail import send_mail
+from django.urls import reverse
+from .models import UserRegister1, ShopEmployeeRegister1, PasswordResetToken
+
+
+def request_password_reset(request):
+    sent = False
+    error = None
+    if request.method == 'POST':
+        email = request.POST['email']
+        user = UserRegister1.objects.filter(email=email).first() or ShopEmployeeRegister1.objects.filter(
+            email=email).first()
+
+        if user:
+            token = PasswordResetToken.objects.create(user_email=email)
+            reset_link = request.build_absolute_uri(reverse('password_reset_form', args=[str(token.token)]))
+
+
+            send_mail(
+                'Password Reset Request',
+                f'Click the following link to reset your password: {reset_link}',
+                'your_email@example.com',  # Replace with your email
+                [email],
+            )
+            sent = True
+        else:
+            error = 'Email not found.'
+
+    return render(request, 'forgot_password.html', {'sent': sent, 'error': error})
+
+
+def password_reset_form(request, token):
+    token_obj = get_object_or_404(PasswordResetToken, token=token, is_active=True)
+    reset_success = False
+
+    if request.method == 'POST':
+        new_password = request.POST['password']
+        user = UserRegister1.objects.filter(email=token_obj.user_email).first() or ShopEmployeeRegister1.objects.filter(
+            email=token_obj.user_email).first()
+
+        if user:
+            user.password = new_password
+            user.save()
+            token_obj.is_active = False
+            token_obj.save()
+            reset_success = True
+
+            # Add success message
+            messages.success(request, 'Your password has been reset successfully! You can now log in with your new password.')
+        else:
+            # Add error message if user is not found
+            messages.error(request, 'We could not find a user associated with this token. Please try again.')
+
+    # Render the password reset form template with the success flag
+    return render(request, 'password_reset_form.html', {'reset_success': reset_success})
+
+

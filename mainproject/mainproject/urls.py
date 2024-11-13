@@ -81,6 +81,8 @@ urlpatterns = [
     path('Ads', views.Ads, name='Ads'),
     path('Manage_Ads', views.Manage_Ads, name='Manage_Ads'),
     path('delete_ads/<int:d>', views.delete_ads),
+    path('forgot_password', views.request_password_reset, name='forgot_password'),
+    path('password_reset_form/<uuid:token>/', views.password_reset_form, name='password_reset_form'),
 
 
 

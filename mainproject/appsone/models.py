@@ -15,7 +15,7 @@ class UserRegister1(models.Model):
     State = models.CharField(max_length=50)
     Pin = models.IntegerField()
     Country = models.CharField(max_length=50)
-    profile_pic = models.FileField( null=True, blank=True , default='img/profile/default_profile.jpg')
+    profile_pic = models.FileField( null=True, blank=True , default='img/profiles/default_profile.png')
 
 
 class ShopEmployeeRegister1(models.Model):
@@ -103,6 +103,22 @@ class Advertisements(models.Model):
     p_name = models.CharField(max_length=100)
     heading = models.CharField(max_length=100)
     subheading = models.CharField(max_length=100)
+
+
+import uuid
+from django.utils import timezone
+
+class PasswordResetToken(models.Model):
+    user_email = models.EmailField()
+    token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    is_active = models.BooleanField(default=True)
+
+    def is_valid(self):
+        # Token is valid for 24 hours
+        expiration = self.created_at + timezone.timedelta(hours=24)
+        return timezone.now() < expiration and self.is_active
+
 
 
 
