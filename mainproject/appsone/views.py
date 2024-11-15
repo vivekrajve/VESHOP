@@ -17,7 +17,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db import connection
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
-
 from django.http import HttpResponse
 
 
@@ -130,7 +129,7 @@ from django.db.models import Count, Sum
 
 def adminindex(request):
     admin_id = request.session.get('admin_id')
-    admin = Admin_one.objects.get(pk=admin_id)
+    admin = Admin_one.objects.get(pk=1)
     # Counting total users, employees, and products
     user_count = UserRegister1.objects.count()
     employee_count = ShopEmployeeRegister1.objects.count()
@@ -757,7 +756,7 @@ def payment(request, data1):
     data.update(status='paid')
     id = request.session.get("user_id")
     user = UserRegister1.objects.filter(id=id)
-    cart = user_cart.objects.filter(user_details=user)
+    cart = user_cart.objects.filter(user_details=a)
 
     # cursor.execute("update inspection_details set status='completed', fine_paid_date = curdate() where insp_id='" + str(id) + "' ")
 
@@ -783,7 +782,7 @@ def payment2(request, data1):
     cursor = connection.cursor()
     a = request.session.get('user_id')
     user = get_object_or_404(UserRegister1, id=a)
-    data = user_cart.objects.filter(user_details=user)
+    data = user_cart.objects.filter(user_details=a)
 
     data.update(status='paid')
     id = request.session.get("user_id")
@@ -1149,7 +1148,7 @@ def request_password_reset(request):
             send_mail(
                 'Password Reset Request',
                 f'Click the following link to reset your password: {reset_link}',
-                'your_email@example.com',  # Replace with your email
+                'vivekrajve@gmail.com',  # Replace with your email
                 [email],
             )
             sent = True

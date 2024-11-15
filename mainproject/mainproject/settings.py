@@ -131,6 +131,14 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 # settings.py
 
   # This reads a .env file (create it in the same directory)
-# settings.py
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+LOGIN_REDIRECT_URL='/'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'vivekrajve@gmail.com'
+EMAIL_HOST_PASSWORD ='jgmw hqfk ogng hbrz'
+
+RAZORPAY_KEY_ID = 'YOUR_KEY_ID'
+RAZORPAY_KEY_SECRET = 'YOUR_KEY_SECRET'
